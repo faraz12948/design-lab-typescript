@@ -6,7 +6,13 @@ import { Dispatch, SetStateAction } from "react";
 import useCanvasOne from '../../hooks/useCanvasOne';
 import { fabric } from 'fabric';
 import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
+import { useForm, SubmitHandler } from "react-hook-form";
 
+type Inputs = {
+    example: string,
+    txtRequired: string,
+
+};
 // interface textProps {
 //     setText: Dispatch<SetStateAction<string>>;
 //     setTextColor: Dispatch<SetStateAction<string>>;
@@ -17,6 +23,7 @@ interface txtProps {
     setText: Dispatch<SetStateAction<string>>;
     text: string;
     setTxtColor: Dispatch<SetStateAction<string>>;
+    setDelTxt: Dispatch<SetStateAction<boolean>>;
 
 
 }
@@ -24,15 +31,26 @@ function Addtext(props: txtProps) {
     // const { text, setText, textColor, setTextColor } = useCanvasOne();
     const { selectedObjects, editor, onReady } = useFabricJSEditor();
     // const { setText, text } = props;
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
+    const onSubmit: SubmitHandler<Inputs> = data => {
+        props.setText(data.txtRequired);
+        data.txtRequired = '';
+    }
 
     const handleChange = (color: any, event: any) => {
         props.setTxtColor(color.hex);
-        console.log(props.text, "addtext");
+        // console.log(props.text, "addtext");
 
     }
     const handleAddText = (e: any) => {
         e.preventDefault();
-        console.log(props);
+        // console.log(props);
+
+
+
+    }
+    const handleDelText = () => {
+
 
 
 
@@ -48,12 +66,21 @@ function Addtext(props: txtProps) {
             </NavLink>
             <p className='pb-1' style={{ textAlign: 'center', color: 'grey' }}>Add Text</p>
 
-            <form onSubmit={e => handleAddText(e)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                {/* <input onChange={e => props.setText(e.target.value)} /> */}
+                <input className="feedback-input"  {...register("txtRequired", { required: true })} />
+                {/* {errors.txtRequired && <span>This field is required</span>} */}
+
+                <input type="submit" />
+            </form>
+            {/* <form onSubmit={e => handleAddText(e)}>
                 <input name="Addtext" type="text" className="feedback-input" placeholder="Enter text here" onChange={e => props.setText(e.target.value)} />
 
 
                 <input type="submit" value="Add text" />
-            </form>
+            </form> */}
+            <button onClick={() => props.setDelTxt(true)} className="button button1">Remove text</button>
+
             <div className='text-clr pt-10' style={{ height: '260x' }}>
                 <>
                     <p className='pb-1' style={{ textAlign: 'center', color: 'grey' }}>Change text color</p>

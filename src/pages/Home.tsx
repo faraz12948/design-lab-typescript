@@ -45,6 +45,7 @@ function Home() {
     const [color, setColor] = React.useState('#1a237e');
     const [text, setText] = useState('');
     const [txtColor, setTxtColor] = useState('#000000');
+    const [delTxt, setDelTxt] = useState(false);
 
 
 
@@ -221,7 +222,7 @@ function Home() {
                                                 <Addimg></Addimg>
                                             </Route>
                                             <Route path='/Addtxt'>
-                                                <Addtext text={text} setText={setText} setTxtColor={setTxtColor}></Addtext>
+                                                <Addtext text={text} setText={setText} setTxtColor={setTxtColor} setDelTxt={setDelTxt}></Addtext>
                                             </Route>
                                             <Route path='/Upload'>
                                                 <Upload></Upload>
@@ -284,7 +285,7 @@ function Home() {
                                                 <Addimg></Addimg>
                                             </Route>
                                             <Route path='/Addtxt'>
-                                                {/* <Addtext></Addtext> */}
+                                                <Addtext text={text} setText={setText} setTxtColor={setTxtColor} setDelTxt={setDelTxt}></Addtext>
                                             </Route>
                                             <Route path='/Upload'>
                                                 <Upload></Upload>
@@ -306,7 +307,7 @@ function Home() {
             <div className='t-shirt-container'>
                 <img className='' id="tshirt-backgroundpicture" src={tImg} style={{}} />
             </div>
-            <CanvasFront text={text} txtColor={txtColor} />
+            <CanvasFront text={text} txtColor={txtColor} delTxt={delTxt} setDelTxt={setDelTxt} />
 
         </div>
     );

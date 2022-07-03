@@ -3,10 +3,15 @@ import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
 import { useEffect, useState } from 'react';
 import './CanvasFront.css';
 import useCanvasOne from '../../hooks/useCanvasOne';
-import crossIcon from '../../assets/text.png';
+import crossIcon from '../../assets/remove.png';
+import { Dispatch, SetStateAction } from "react";
+
 interface txtProp {
     text: string;
     txtColor: string;
+    delTxt: boolean;
+    setDelTxt: Dispatch<SetStateAction<boolean>>;
+
 }
 function CanvasFront(props: txtProp) {
     const [objects, setObjects] = useState({});
@@ -71,36 +76,61 @@ function CanvasFront(props: txtProp) {
 
 
     // }, []);
+    useEffect(() => {
+        if (editor?.canvas.getActiveObjects()) {
+
+            if (props.delTxt === true) {
+                editor?.canvas.getActiveObjects().forEach((object) => {
+                    if (object.type === "textbox")
+                        editor?.canvas.remove(object);
+                })
+            }
+            props.setDelTxt(false)
+
+        }
+        else {
+            props.setDelTxt(false);
+        }
+
+    }, [props.delTxt]);
     const deleteObject = () => {
         editor?.canvas.getActiveObjects().forEach((object) => {
             editor?.canvas.remove(object);
         });
+        return true;
 
     }
-    // useEffect(()=>{
-    //     fabric.Object.prototype.controls.deleteControl = new fabric.Control({
-    //         x: 0.5,
-    //         y: -0.5,
-    //         offsetY: 16,
-    //         cursorStyle: 'pointer',
-    //         mouseUpHandler: deleteObject,
-    //         render: renderIcon,
-    //         cornerSize: 24
-    //       });
-    //       function renderIcon(ctx:any, left:any, top:any, styleOverride:any, fabricObject:any) {
-    //         var size = cornerSize;
-    //         ctx.save();
-    //         ctx.translate(left, top);
-    //         ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
-    //         ctx.drawImage(crossIcon, -size/2, -size/2, size, size);
-    //         ctx.restore();
-    //       }
-    // })
+    useEffect(() => {
 
-    // console.log(text);
-    // useEffect(() => {
-    //     console.log(text);
-    // }, [text])
+        var img = document.createElement('img');
+        img.src = crossIcon;
+        fabric.Object.prototype.transparentCorners = false;
+        fabric.Object.prototype.cornerColor = 'blue';
+        fabric.Object.prototype.cornerStyle = 'circle';
+        function renderIcon(ctx: CanvasRenderingContext2D, left: number, top: number, styleOverride: any, fabricObject: fabric.Object) {
+            // console.log(fabric.util.degreesToRadians(fabricObject.angle || 0));
+            var size = 24;
+            ctx.save();
+            ctx.translate(left, top);
+            ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle || 0));
+            ctx.drawImage(img, -size / 2, -size / 2, size, size);
+            ctx.restore();
+        }
+        // console.log("delet");
+
+        // console.log(img);
+        fabric.Object.prototype.controls.deleteControl = new fabric.Control({
+            x: 0.5,
+            y: -0.5,
+            offsetY: 16,
+            cursorStyle: 'pointer',
+            mouseUpHandler: deleteObject,
+            render: renderIcon,
+        });
+
+    }, [editor?.canvas.getActiveObjects()]);
+
+
 
 
     // const addText = (e: Event, text: string) => {
@@ -142,7 +172,7 @@ function CanvasFront(props: txtProp) {
 
     // }
     useEffect(() => {
-        console.log(props.text, "canvas");
+        // console.log(props.text, "canvas");
         try {
             editor?.canvas.add(
                 new fabric.Textbox(props.text, {
@@ -165,7 +195,7 @@ function CanvasFront(props: txtProp) {
 
 
         if (editor?.canvas) {
-            const obj = editor?.canvas.getObjects();
+            const obj = editor?.canvas.getActiveObjects();
             obj?.forEach((o) => {
 
                 if (o.type === "textbox") {
