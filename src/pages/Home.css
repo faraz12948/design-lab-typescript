@@ -1,0 +1,30 @@
+.controller-side-bar {
+    background-color: #444343;
+    /* background-color: rgb(110, 108, 108); */
+    color: azure;
+}
+
+/* .icon-btn :hover {
+    background-color: azure;
+    color: #444343;
+
+} */
+
+@media (min-width: 689px) {
+    .main-container {
+        padding: 0px 100px 0px 30px;
+    }
+}
+
+/* .t-shirt-container {
+    width: 452px;
+    height: 548px;
+    position: relative;
+    background-color: #fff;
+}
+
+.drawing-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+} */
