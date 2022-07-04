@@ -25,6 +25,13 @@ interface txtProps {
     setTxtColor: Dispatch<SetStateAction<string>>;
     setDelTxt: Dispatch<SetStateAction<boolean>>;
 
+    setText2: Dispatch<SetStateAction<string>>;
+    text2: string;
+    setTxtColor2: Dispatch<SetStateAction<string>>;
+    setDelTxt2: Dispatch<SetStateAction<boolean>>;
+
+    changeCanvas: boolean;
+
 
 }
 function Addtext(props: txtProps) {
@@ -33,13 +40,26 @@ function Addtext(props: txtProps) {
     // const { setText, text } = props;
     const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
     const onSubmit: SubmitHandler<Inputs> = data => {
+
+        // if (!props.changeCanvas) {
+        //     props.setText(data.txtRequired);
+        // }
+        // else {
+        //     props.setText2(data.txtRequired);
+        // }
         props.setText(data.txtRequired);
         data.txtRequired = '';
     }
 
     const handleChange = (color: any, event: any) => {
+        // if (!props.changeCanvas) {
+        //     props.setTxtColor(color.hex);
+        // }
+        // else {
+        //     props.setTxtColor2(color.hex);
+        // }
         props.setTxtColor(color.hex);
-        // console.log(props.text, "addtext");
+
 
     }
     const handleAddText = (e: any) => {

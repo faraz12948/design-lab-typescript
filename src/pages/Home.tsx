@@ -23,6 +23,8 @@ import MuiDrawer from '../components/MuiDrawer/MuiDrawe';
 import React from 'react';
 import CanvasFront from '../components/CanvasFront/CanvasFront';
 import useCanvasOne from '../hooks/useCanvasOne';
+import CanvasBack from '../components/CanvasBack/CanvasBack';
+import tback from '../assets/tback.png';
 
 
 // drawer
@@ -46,6 +48,11 @@ function Home() {
     const [text, setText] = useState('');
     const [txtColor, setTxtColor] = useState('#000000');
     const [delTxt, setDelTxt] = useState(false);
+    const [color2, setColor2] = React.useState('#1a237e');
+    const [text2, setText2] = useState('');
+    const [txtColor2, setTxtColor2] = useState('#000000');
+    const [delTxt2, setDelTxt2] = useState(false);
+    const [changeCanvas, setChangeCanvas] = useState(false);
 
 
 
@@ -62,7 +69,7 @@ function Home() {
     };
 
     //  fabric.js
-    console.log(setColor, 'home');
+    // console.log(setColor, 'home');
 
     const changeTcolor = (e: Event, clr: string) => {
         const shirtDiv: HTMLElement | null = document.getElementById("tshirt-backgroundpicture");
@@ -90,7 +97,7 @@ function Home() {
 
 
 
-    console.log(text, "home");
+    // console.log(text, "home");
 
 
 
@@ -222,7 +229,7 @@ function Home() {
                                                 <Addimg></Addimg>
                                             </Route>
                                             <Route path='/Addtxt'>
-                                                <Addtext text={text} setText={setText} setTxtColor={setTxtColor} setDelTxt={setDelTxt}></Addtext>
+                                                <Addtext changeCanvas={changeCanvas} text={text} setText={setText} setTxtColor={setTxtColor} setDelTxt={setDelTxt} text2={text2} setText2={setText2} setTxtColor2={setTxtColor2} setDelTxt2={setDelTxt2}></Addtext>
                                             </Route>
                                             <Route path='/Upload'>
                                                 <Upload></Upload>
@@ -285,8 +292,7 @@ function Home() {
                                                 <Addimg></Addimg>
                                             </Route>
                                             <Route path='/Addtxt'>
-                                                <Addtext text={text} setText={setText} setTxtColor={setTxtColor} setDelTxt={setDelTxt}></Addtext>
-                                            </Route>
+                                                <Addtext changeCanvas={changeCanvas} text={text} setText={setText} setTxtColor={setTxtColor} setDelTxt={setDelTxt} text2={text2} setText2={setText2} setTxtColor2={setTxtColor2} setDelTxt2={setDelTxt2}></Addtext></Route>
                                             <Route path='/Upload'>
                                                 <Upload></Upload>
                                             </Route>
@@ -304,11 +310,30 @@ function Home() {
             </>
 
 
-            <div className='t-shirt-container'>
-                <img className='' id="tshirt-backgroundpicture" src={tImg} style={{}} />
-            </div>
-            <CanvasFront text={text} txtColor={txtColor} delTxt={delTxt} setDelTxt={setDelTxt} />
+            <div>
+                <div className='canvas-btn'>
+                    <Button onClick={() => setChangeCanvas(!changeCanvas)}>change side</Button>
 
+                </div>
+
+
+
+                {
+                    changeCanvas ? <>
+                        <div className='t-shirt-container'>
+                            <img className='' id="tshirt-backgroundpicture" src={tback} style={{}} />
+                        </div>
+                    </> :
+                        <>
+                            <div className='t-shirt-container'>
+                                <img className='' id="tshirt-backgroundpicture" src={tImg} style={{}} />
+                            </div>
+
+                        </>
+                }
+                <CanvasFront text={text} txtColor={txtColor} delTxt={delTxt} setDelTxt={setDelTxt} changeCanvas={changeCanvas} />
+
+            </div>
         </div>
     );
 }

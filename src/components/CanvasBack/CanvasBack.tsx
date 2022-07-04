@@ -1,22 +1,20 @@
 import { fabric } from 'fabric';
 import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
 import { useEffect, useState } from 'react';
-import './CanvasFront.css';
+import './CanvasBack.css';
 import useCanvasOne from '../../hooks/useCanvasOne';
 import crossIcon from '../../assets/remove.png';
 import { Dispatch, SetStateAction } from "react";
 
 interface txtProp {
-    text: string;
-    txtColor: string;
+    text2: string;
+    txtColor2: string;
     delTxt: boolean;
     setDelTxt: Dispatch<SetStateAction<boolean>>;
-    changeCanvas: boolean;
 
 }
-function CanvasFront(props: txtProp) {
+function CanvasBack(props: txtProp) {
     const [objects, setObjects] = useState({});
-    const [objectsBack, setObjectsBack] = useState({});
 
     const [color, setColor] = useState('');
     // const [image, setImage] = useState('');
@@ -26,9 +24,7 @@ function CanvasFront(props: txtProp) {
 
     useEffect(() => {
         console.log(editor?.canvas.toObject);
-
         initCanvas();
-
 
     }, [])
     const initCanvas = () => {
@@ -51,7 +47,7 @@ function CanvasFront(props: txtProp) {
             });
             editor?.canvas.centerObject(oImg);
             if (editor?.canvas.getObjects()) {
-                // setObjects(editor?.canvas.getObjects());
+                setObjects(editor?.canvas.getObjects());
             }
             console.log(objects);
 
@@ -165,7 +161,7 @@ function CanvasFront(props: txtProp) {
     // }
     // const getObj = () => {
     //     if (objects) {
-    //         objects.forEach((ob) => {
+    //         objects.forEach((ob:{}) => {
     //             console.log(ob);
     //             editor?.canvas.add(ob);
     //             editor?.canvas.renderAll();
@@ -179,7 +175,7 @@ function CanvasFront(props: txtProp) {
         // console.log(props.text, "canvas");
         try {
             editor?.canvas.add(
-                new fabric.Textbox(props.text, {
+                new fabric.Textbox(props.text2, {
                     // fill: textColor,
                     fontSize: 20,
                     fontFamily: "Arial",
@@ -193,7 +189,7 @@ function CanvasFront(props: txtProp) {
             console.log(error);
         }
 
-    }, [props.text]);
+    }, [props.text2]);
 
     useEffect(() => {
 
@@ -203,7 +199,7 @@ function CanvasFront(props: txtProp) {
             obj?.forEach((o) => {
 
                 if (o.type === "textbox") {
-                    editor?.canvas.getActiveObject().set("fill", props.txtColor);
+                    editor?.canvas.getActiveObject().set("fill", props.txtColor2);
                     editor?.canvas.renderAll();
                 }
             })
@@ -211,77 +207,7 @@ function CanvasFront(props: txtProp) {
 
 
 
-    }, [props.txtColor]);
-    useEffect(() => {
-
-
-        if (editor?.canvas) {
-            const obj = editor?.canvas.getObjects();
-            // console.log(typeof (obj), '=>', typeof (objects));
-            // console.log(Object.values(objects));
-
-
-            if (props.changeCanvas === true) {
-                setObjects(obj);
-                // console.log(objects, "front");
-                editor?.canvas.getObjects().forEach((object) => {
-
-                    editor?.canvas.remove(object);
-                })
-            }
-            else {
-                setObjectsBack(obj);
-                // console.log(objectsBack, "objects back");
-                editor?.canvas.getObjects().forEach((object) => {
-
-                    editor?.canvas.remove(object);
-                })
-            }
-
-        }
-
-
-
-    }, [props.changeCanvas]);
-    useEffect(() => {
-
-        console.log(objectsBack);
-
-
-
-        if (objects) {
-            Object.values(objects).forEach((o) => {
-
-                console.log(o);
-                if (props.changeCanvas === false) {
-                    // console.log(o as any);
-                    // console.log("gg")
-                    editor?.canvas.add(o as any);
-                    editor?.canvas.renderAll();
-                }
-            })
-
-
-        }
-        if (objectsBack) {
-            Object.values(objectsBack).forEach((o) => {
-
-                console.log(o);
-                if (props.changeCanvas === true) {
-                    // console.log(o as any);
-                    // console.log("gg")
-                    editor?.canvas.add(o as any);
-                    editor?.canvas.renderAll();
-                }
-            })
-
-        }
-
-
-
-
-
-    }, [props.changeCanvas]);
+    }, [props.txtColor2]);
 
     return (
         <div id="drawingArea" className="drawing-area">
@@ -292,4 +218,4 @@ function CanvasFront(props: txtProp) {
     );
 }
 
-export default CanvasFront;
+export default CanvasBack;
