@@ -1,8 +1,15 @@
 import './Upload.css'
 import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
 import { NavLink } from 'react-router-dom';
+import { Dispatch, SetStateAction } from "react";
+import { Button } from '@mui/material';
 
-function Upload() {
+interface imgProp {
+
+    setImgUrl: Dispatch<SetStateAction<string>>;
+
+}
+function Upload(props: imgProp) {
     return (
         <div>
             <NavLink className="cross-btn" to='/'>
@@ -21,6 +28,7 @@ function Upload() {
                     <input type='file' className="hidden" />
                 </label>
             </div>
+            <Button onClick={() => props.setImgUrl('https://cdn.dribbble.com/users/24078/screenshots/15522433/media/e92e58ec9d338a234945ae3d3ffd5be3.jpg?compress=1&resize=400x300')}>Upload demo</Button>
         </div>
     );
 }

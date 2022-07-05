@@ -48,7 +48,7 @@ function Addtext(props: txtProps) {
         //     props.setText2(data.txtRequired);
         // }
         props.setText(data.txtRequired);
-        data.txtRequired = '';
+        // data.txtRequired = '';
     }
 
     const handleChange = (color: any, event: any) => {

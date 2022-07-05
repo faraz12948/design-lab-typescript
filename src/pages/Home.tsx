@@ -53,6 +53,8 @@ function Home() {
     const [txtColor2, setTxtColor2] = useState('#000000');
     const [delTxt2, setDelTxt2] = useState(false);
     const [changeCanvas, setChangeCanvas] = useState(false);
+    const [imgURL, setImgURL] = useState('');
+
 
 
 
@@ -85,7 +87,7 @@ function Home() {
         if (shirtDiv != null) {
             shirtDiv.style.backgroundColor = color;
         }
-        console.log(setColor);
+        // console.log(setColor);
 
     }, [color]);
 
@@ -165,7 +167,7 @@ function Home() {
                                                 {/* <Addtext></Addtext> */}
                                             </Route>
                                             <Route path='/Upload'>
-                                                <Upload></Upload>
+                                                {/* <Upload></Upload> */}
                                             </Route>
                                         </Switch>
                                     </>
@@ -232,7 +234,7 @@ function Home() {
                                                 <Addtext changeCanvas={changeCanvas} text={text} setText={setText} setTxtColor={setTxtColor} setDelTxt={setDelTxt} text2={text2} setText2={setText2} setTxtColor2={setTxtColor2} setDelTxt2={setDelTxt2}></Addtext>
                                             </Route>
                                             <Route path='/Upload'>
-                                                <Upload></Upload>
+                                                <Upload setImgUrl={setImgURL}></Upload>
                                             </Route>
                                         </Switch>
                                     </>
@@ -294,7 +296,7 @@ function Home() {
                                             <Route path='/Addtxt'>
                                                 <Addtext changeCanvas={changeCanvas} text={text} setText={setText} setTxtColor={setTxtColor} setDelTxt={setDelTxt} text2={text2} setText2={setText2} setTxtColor2={setTxtColor2} setDelTxt2={setDelTxt2}></Addtext></Route>
                                             <Route path='/Upload'>
-                                                <Upload></Upload>
+                                                <Upload setImgUrl={setImgURL}></Upload>
                                             </Route>
                                         </Switch>
 
@@ -331,7 +333,7 @@ function Home() {
 
                         </>
                 }
-                <CanvasFront text={text} txtColor={txtColor} delTxt={delTxt} setDelTxt={setDelTxt} changeCanvas={changeCanvas} />
+                <CanvasFront imgURL={imgURL} text={text} txtColor={txtColor} delTxt={delTxt} setDelTxt={setDelTxt} changeCanvas={changeCanvas} />
 
             </div>
         </div>

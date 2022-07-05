@@ -12,6 +12,7 @@ interface txtProp {
     delTxt: boolean;
     setDelTxt: Dispatch<SetStateAction<boolean>>;
     changeCanvas: boolean;
+    imgURL: string;
 
 }
 function CanvasFront(props: txtProp) {
@@ -21,7 +22,7 @@ function CanvasFront(props: txtProp) {
     const [color, setColor] = useState('');
     // const [image, setImage] = useState('');
     const { selectedObjects, editor, onReady } = useFabricJSEditor();
-    const [imgURL, setImgURL] = useState('https://cdn.dribbble.com/users/24078/screenshots/15522433/media/e92e58ec9d338a234945ae3d3ffd5be3.jpg?compress=1&resize=400x300');
+    // const [imgURL, setImgURL] = useState('https://cdn.dribbble.com/users/24078/screenshots/15522433/media/e92e58ec9d338a234945ae3d3ffd5be3.jpg?compress=1&resize=400x300');
 
 
     useEffect(() => {
@@ -35,10 +36,10 @@ function CanvasFront(props: txtProp) {
         editor?.canvas.setWidth(300);
         editor?.canvas.setHeight(400);
     }
-    const addImg = (e: Event, url: string) => {
+    useEffect(() => {
 
-        e.preventDefault();
-        fabric.Image.fromURL(url, function (oImg) {
+
+        fabric.Image.fromURL(props.imgURL, function (oImg) {
             editor?.canvas.setWidth(300);
             editor?.canvas.setHeight(400);
             editor?.canvas.add(oImg);
@@ -53,7 +54,6 @@ function CanvasFront(props: txtProp) {
             if (editor?.canvas.getObjects()) {
                 // setObjects(editor?.canvas.getObjects());
             }
-            console.log(objects);
 
 
         });
@@ -63,7 +63,8 @@ function CanvasFront(props: txtProp) {
 
         // setImgURL('');
 
-    }
+
+    }, [props.imgURL])
     const onAddCircle = () => {
         if (editor) {
             editor.addCircle();
@@ -132,7 +133,33 @@ function CanvasFront(props: txtProp) {
             render: renderIcon,
         });
 
+
     }, [editor?.canvas.getActiveObjects()]);
+    function objectAddedListener(ev: any) {
+        let target = ev.target;
+        console.log('left', target.left, 'top', target.top, 'width', target.width, 'height', target.height);
+    }
+
+    function objectMovedListener(ev: any) {
+        let target = ev.target;
+        console.log('left', target.left, 'top', target.top, 'width', target.width * target.scaleX, 'height', ((target.height * target.scaleY) / (editor?.canvas.getHeight() || 1)) * 100);
+    }
+    useEffect(() => {
+
+        editor?.canvas.on('object:modified', objectMovedListener);
+
+
+    }, [editor?.canvas.getActiveObjects()])
+    useEffect(() => {
+
+        editor?.canvas.on('object:added', objectAddedListener);
+
+
+    }, [editor?.canvas.getObjects()])
+
+
+
+
 
 
 
@@ -245,14 +272,14 @@ function CanvasFront(props: txtProp) {
     }, [props.changeCanvas]);
     useEffect(() => {
 
-        console.log(objectsBack);
+        // console.log(objectsBack);
 
 
 
         if (objects) {
             Object.values(objects).forEach((o) => {
 
-                console.log(o);
+                // console.log(o);
                 if (props.changeCanvas === false) {
                     // console.log(o as any);
                     // console.log("gg")
@@ -266,7 +293,7 @@ function CanvasFront(props: txtProp) {
         if (objectsBack) {
             Object.values(objectsBack).forEach((o) => {
 
-                console.log(o);
+                // console.log(o);
                 if (props.changeCanvas === true) {
                     // console.log(o as any);
                     // console.log("gg")
